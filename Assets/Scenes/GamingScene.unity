@@ -393,7 +393,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 144904460}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!124 &144904462
 Behaviour:
   m_ObjectHideFlags: 0
@@ -421,16 +421,16 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
+    x: 0.8
+    y: 0.6
+    width: 0.2
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 0
   orthographic size: 15
-  m_Depth: -1
+  m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -1063,7 +1063,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5776691538091650739, guid: bae26acf817c6dc4e82f95d9ef4ab46a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: -0.89
       objectReference: {fileID: 0}
     - target: {fileID: 5776691538091650739, guid: bae26acf817c6dc4e82f95d9ef4ab46a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1120,7 +1120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fc048c2966b482689b6abfd51f761c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkingSpeed: 7
+  cam: {fileID: 1528516373}
 --- !u!65 &422825740
 BoxCollider:
   m_ObjectHideFlags: 0
