@@ -50,6 +50,6 @@ public class GameController : MonoBehaviour
             }
             
         }
-        _FireManageButton.SetActive(true);
+        _FireManageButton.SetActive(false);
     }
 }
