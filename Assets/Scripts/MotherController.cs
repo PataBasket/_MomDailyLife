@@ -38,7 +38,6 @@ public class MotherController : MonoBehaviour
         cam.transform.localRotation = cameraRot;
         transform.localRotation = characterRot;
 
-
         UpdateCursorLock();
     }
 
@@ -66,7 +65,6 @@ public class MotherController : MonoBehaviour
         {
             cursorLock = true;
         }
-
 
         if (cursorLock)
         {
@@ -96,6 +94,5 @@ public class MotherController : MonoBehaviour
 
         return q;
     }
-
 
 }

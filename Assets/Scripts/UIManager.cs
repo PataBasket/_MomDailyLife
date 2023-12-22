@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject FireManageButton;
     [SerializeField] private GameObject SleepManageButton;
-    [SerializeField] private bool isPressed = false;
+    //[SerializeField] private bool isPressed = false;
 
     private float pressCounter = 0;
 
@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
     {
         GameController gamecontroller = FindObjectOfType<GameController>();
         GameManager gamemanager = FindObjectOfType<GameManager>();
+        BoyController boycontroller = FindObjectOfType<BoyController>();
 
         if (Input.GetKey(KeyCode.Return) && FireManageButton.activeSelf)
         {
@@ -42,7 +43,7 @@ public class UIManager : MonoBehaviour
                     Debug.Log("Fired");
                 }
 
-                isPressed = false;
+                //isPressed = false;
                 pressCounter = 0;
             }
         }
@@ -58,7 +59,7 @@ public class UIManager : MonoBehaviour
                 if (gamecontroller.sleepBool)
                 {
                     gamecontroller.sleepBool = false;
-                    gamemanager.boyAwake();
+                    boycontroller.boyAwake();
                     Debug.Log("awake");
                 }
                 pressCounter = 0;
