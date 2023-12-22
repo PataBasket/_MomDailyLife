@@ -6,14 +6,19 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
     [SerializeField] private GameObject _FireManageButton;
+    [SerializeField] private GameObject _SleepManageButton;
 
     public bool fireBool = false; //火がついているか付いていないかのBool
     public Text fireButtonText;
+
+    public bool sleepBool = true; //子供が寝ているかどうかのBool
+    public Text sleepButtonText;
 
     // Start is called before the first frame update
     void Start()
     {
         fireButtonText = _FireManageButton.GetComponentInChildren<Text>();
+        sleepButtonText = _SleepManageButton.GetComponentInChildren<Text>();
     }
 
     // Update is called once per frame
@@ -48,8 +53,28 @@ public class GameController : MonoBehaviour
             {
                 gamemanager.fireCounterBool = true;
             }
-            
+
+            _FireManageButton.SetActive(false);
         }
-        _FireManageButton.SetActive(false);
+        
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "SleepingPlace" && sleepBool == true)
+        {
+            sleepButtonText.text = "起こす";
+            _SleepManageButton.SetActive(true);
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if(collision.gameObject.tag == "SleepingPlace")
+        {
+            _SleepManageButton.SetActive(false);
+        }
+    }
+
+
 }

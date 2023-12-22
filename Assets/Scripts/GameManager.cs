@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public float fireCounter = 0.0f;
 
     [SerializeField] private GameObject hourHand, minuteHand, secondHand;
+    [SerializeField] private GameObject _boy;
 
     // Start is called before the first frame update
     void Start()
@@ -39,4 +40,13 @@ public class GameManager : MonoBehaviour
         //secondHand.GetComponent<Transform>().localEulerAngles = new Vector3(90f, 0, -360f / (1.0f/6.0f) * Time.deltaTime); //秒針
     }
 
+    public void boyAwake()
+    {
+        Vector3 awakePosition = new Vector3(-10f, -0.9f, 22.5f);
+        Quaternion awakeRotation = Quaternion.Euler(0f, 180f, 0f);
+
+        _boy.transform.SetPositionAndRotation(awakePosition, awakeRotation);
+
+        //_boy.transform
+    }
 }

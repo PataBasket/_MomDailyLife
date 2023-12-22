@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject FireManageButton;
+    [SerializeField] private GameObject SleepManageButton;
     [SerializeField] private bool isPressed = false;
 
     private float pressCounter = 0;
@@ -19,15 +20,16 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Return))
+        GameController gamecontroller = FindObjectOfType<GameController>();
+        GameManager gamemanager = FindObjectOfType<GameManager>();
+
+        if (Input.GetKey(KeyCode.Return) && FireManageButton.activeSelf)
         {
             pressCounter += Time.deltaTime;
             if(pressCounter >= 3)
             {
-                FireButtonExecution();
+                FireManageButton.SetActive(false);
 
-                GameController gamecontroller = FindObjectOfType<GameController>();
-                GameManager gamemanager = FindObjectOfType<GameManager>();
                 if (gamecontroller.fireBool)
                 {
                     gamecontroller.fireBool = false;
@@ -37,16 +39,32 @@ public class UIManager : MonoBehaviour
                 else if (!gamecontroller.fireBool)
                 {
                     gamecontroller.fireBool = true;
+                    Debug.Log("Fired");
                 }
 
                 isPressed = false;
                 pressCounter = 0;
             }
         }
+
+        if(Input.GetKey(KeyCode.Return) && SleepManageButton.activeSelf)
+        {
+            pressCounter += Time.deltaTime;
+            if(pressCounter >= 3)
+            {
+                SleepManageButton.SetActive(false);
+                Debug.Log(gamecontroller.sleepBool); //=false
+
+                if (gamecontroller.sleepBool)
+                {
+                    gamecontroller.sleepBool = false;
+                    gamemanager.boyAwake();
+                    Debug.Log("awake");
+                }
+                pressCounter = 0;
+            }
+        }
+
     }
 
-    public void FireButtonExecution()
-    {
-        FireManageButton.SetActive(false);
-    }
 }
