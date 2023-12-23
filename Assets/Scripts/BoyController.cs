@@ -10,7 +10,7 @@ public class BoyController : MonoBehaviour
     public Transform[] destinations; // 目的地のTransform
     private NavMeshAgent navMeshAgent;
     private int currentDestinationIndex = 0;
-    //private bool isWaiting = false;
+    private bool isWaiting = false;
 
 
     // Start is called before the first frame update
@@ -29,9 +29,10 @@ public class BoyController : MonoBehaviour
         if (!gamecontroller.sleepBool)
         {
             navMeshAgent.enabled = true;
-            if(navMeshAgent.remainingDistance < 2.0f && !navMeshAgent.pathPending)
+            if(navMeshAgent.remainingDistance < 2.0f && !navMeshAgent.pathPending && !isWaiting)
             {
                 SetNextDestination();
+                currentDestinationIndex++;
             }
         }
     }
@@ -50,16 +51,25 @@ public class BoyController : MonoBehaviour
     {
         if (currentDestinationIndex < destinations.Length)
         {
-            navMeshAgent.SetDestination(destinations[currentDestinationIndex].position);
-            currentDestinationIndex++;
+            Transform nextDestination = destinations[currentDestinationIndex];
+            navMeshAgent.SetDestination(nextDestination.position);
 
-            
+            // DOTweenを使って到着後に3秒間待機する
+            Sequence sequence = DOTween.Sequence();
+            sequence.AppendCallback(() => isWaiting = true);
+            sequence.AppendInterval(3f);
+            sequence.AppendCallback(() =>
+            {
+                isWaiting = false;
+                SetNextDestination();
+            });
         }
+
         else
         {
             Debug.Log("All destinations reached");
+            isWaiting = true;
         }
     }
 
-    
 }

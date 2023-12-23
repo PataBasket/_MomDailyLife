@@ -1,19 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public bool fireCounterBool = false;
-    public float fireCounter = 0.0f;
+    [SerializeField] private GameObject __FireManageButton;
+
+    public bool exitCounterBool = false;
+    public float exitCounter = 0.0f;
+
+    public bool _fireCounterBool = false;
+    public float _fireCounter = 0.0f;
+
+    public bool _cookBool = false; //料理ができているかどうかのBool
+    Text __fireButtonText;
 
     [SerializeField] private GameObject hourHand, minuteHand, secondHand;
-    [SerializeField] private GameObject _boy;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        __fireButtonText = __FireManageButton.GetComponentInChildren<Text>();
     }
 
     // Update is called once per frame
@@ -21,13 +29,24 @@ public class GameManager : MonoBehaviour
     {
         //gameController gamecontroller = FindObjectOfType<GameController>();
 
-        if(fireCounterBool == true)
+        if(exitCounterBool == true)
         {
-            fireCounter += Time.deltaTime;
-            if(fireCounter >= 10f)
+            exitCounter += Time.deltaTime;
+            if(exitCounter >= 10f)
             {
                 Debug.Log("GameOver");
-                fireCounter = 0.0f;
+                exitCounter = 0.0f;
+            }
+        }
+
+        if (_fireCounterBool)
+        {
+            _fireCounter += Time.deltaTime;
+            if(_fireCounter >= 50f && !_cookBool)
+            {
+                _cookBool = true;
+                __fireButtonText.text = "お皿にうつす";
+                Debug.Log("Cooked!!");
             }
         }
 
@@ -40,13 +59,5 @@ public class GameManager : MonoBehaviour
         //secondHand.GetComponent<Transform>().localEulerAngles = new Vector3(90f, 0, -360f / (1.0f/6.0f) * Time.deltaTime); //秒針
     }
 
-    public void boyAwake()
-    {
-        Vector3 awakePosition = new Vector3(-10f, -0.9f, 22.5f);
-        Quaternion awakeRotation = Quaternion.Euler(0f, 180f, 0f);
-
-        _boy.transform.SetPositionAndRotation(awakePosition, awakeRotation);
-
-        //_boy.transform
-    }
+    
 }

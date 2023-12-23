@@ -7,9 +7,10 @@ public class GameController : MonoBehaviour
 {
     [SerializeField] private GameObject _FireManageButton;
     [SerializeField] private GameObject _SleepManageButton;
+    [SerializeField] private Transform _minuteHand;
 
     public bool fireBool = false; //火がついているか付いていないかのBool
-    public Text fireButtonText;
+    public Text _fireButtonText;
 
     public bool sleepBool = true; //子供が寝ているかどうかのBool
     public Text sleepButtonText;
@@ -17,7 +18,7 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        fireButtonText = _FireManageButton.GetComponentInChildren<Text>();
+        _fireButtonText = _FireManageButton.GetComponentInChildren<Text>();
         sleepButtonText = _SleepManageButton.GetComponentInChildren<Text>();
     }
 
@@ -31,13 +32,17 @@ public class GameController : MonoBehaviour
     {
         if(collider.gameObject.tag == "ActionTrigger")
         {
-            if(fireBool == false)
+            GameManager gamemanager = FindObjectOfType<GameManager>();
+            gamemanager.exitCounterBool = false;
+            gamemanager.exitCounter = 0f;
+
+            if (fireBool == false)
             {
-                fireButtonText.text = "火をつける";
+                _fireButtonText.text = "火をつける";
             }
             else
             {
-                fireButtonText.text = "火を消す";
+                _fireButtonText.text = "火を消す";
             }
 
             _FireManageButton.SetActive(true);
@@ -51,7 +56,7 @@ public class GameController : MonoBehaviour
             GameManager gamemanager = FindObjectOfType<GameManager>();
             if (fireBool)
             {
-                gamemanager.fireCounterBool = true;
+                gamemanager.exitCounterBool = true;
             }
 
             _FireManageButton.SetActive(false);
@@ -61,7 +66,8 @@ public class GameController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "SleepingPlace" && sleepBool == true)
+        float minute_check = _minuteHand.rotation.eulerAngles.z;
+        if(collision.gameObject.tag == "SleepingPlace" && sleepBool == true && minute_check <= 120f)
         {
             sleepButtonText.text = "起こす";
             _SleepManageButton.SetActive(true);
