@@ -16,16 +16,25 @@ public class ObjectFollowPlayer : MonoBehaviour
 
     void Update()
     {
+        GameManager gamemanager = FindObjectOfType<GameManager>();
+
         // Fキーが押されたら追従を開始
-        if (Input.GetKeyDown(KeyCode.C) && isFront)
+        if (Input.GetKeyDown(KeyCode.C) && isFront && gamemanager._cookBool)
         {
             isGrabbing = true;
         }
 
         // Fキーが離されたら追従を停止
-        if (Input.GetKeyUp(KeyCode.C))
+        if (Input.GetKeyUp(KeyCode.C) && !puttable && isGrabbing)
+        {
+            Debug.Log("そこには置けません！");
+            
+        }
+
+        else if(Input.GetKeyUp(KeyCode.C) && puttable && isGrabbing)
         {
             isGrabbing = false;
+            FoodPlacement();
         }
 
         // 追従中の処理
@@ -38,6 +47,12 @@ public class ObjectFollowPlayer : MonoBehaviour
 
             SecondObject.position = targetPosition + playerTransform.right * -2*horizontal_distance;
         }
+    }
+
+    void FoodPlacement()
+    {
+        transform.position = new Vector3(9.15f, 1.6f, -21.2f);
+        SecondObject.position = new Vector3(10.85f, 1.6f, -21.2f);
     }
 }
 

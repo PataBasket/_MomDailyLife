@@ -84,6 +84,12 @@ public class GameController : MonoBehaviour
             sleepButtonText.text = "起こす";
             _SleepManageButton.SetActive(true);
         }
+
+        if(collision.gameObject.name == "Table")
+        {
+            ObjectFollowPlayer objectfollowplayer = FindObjectOfType<ObjectFollowPlayer>();
+            objectfollowplayer.puttable = true;
+        }
     }
 
     private void OnCollisionExit(Collision collision)
@@ -91,6 +97,12 @@ public class GameController : MonoBehaviour
         if(collision.gameObject.tag == "SleepingPlace")
         {
             _SleepManageButton.SetActive(false);
+        }
+
+        if (collision.gameObject.name == "Table")
+        {
+            ObjectFollowPlayer objectfollowplayer = FindObjectOfType<ObjectFollowPlayer>();
+            objectfollowplayer.puttable = false;
         }
     }
 
