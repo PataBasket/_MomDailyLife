@@ -7,9 +7,9 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject FireManageButton;
     [SerializeField] private GameObject SleepManageButton;
+    [SerializeField] private GameObject callButton;
 
     Text fireButtonText;
-    //[SerializeField] private bool isPressed = false;
 
     private float pressCounter = 0;
     private bool onDish = false;
@@ -26,6 +26,7 @@ public class UIManager : MonoBehaviour
         GameController gamecontroller = FindObjectOfType<GameController>();
         GameManager gamemanager = FindObjectOfType<GameManager>();
         BoyController boycontroller = FindObjectOfType<BoyController>();
+
         
         if (Input.GetKey(KeyCode.Return) && FireManageButton.activeSelf)
         {
@@ -69,7 +70,6 @@ public class UIManager : MonoBehaviour
             if(pressCounter >= 3)
             {
                 SleepManageButton.SetActive(false);
-                Debug.Log(gamecontroller.sleepBool); 
 
                 if (gamecontroller.sleepBool)
                 {
@@ -77,6 +77,20 @@ public class UIManager : MonoBehaviour
                     boycontroller.boyAwake();
                     Debug.Log("awake");
                 }
+                pressCounter = 0;
+            }
+        }
+
+        if(Input.GetKey(KeyCode.Return) && callButton.activeSelf)
+        {
+            pressCounter += Time.deltaTime;
+            if (pressCounter >= 3)
+            {
+                callButton.SetActive(false);
+
+                boycontroller.MoveToSpecificLocation();
+                Debug.Log("今食べにゆく");
+                
                 pressCounter = 0;
             }
         }

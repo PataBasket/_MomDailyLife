@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class BoyController : MonoBehaviour
 {
 
     public Transform[] destinations; // 目的地のTransform
-    [SerializeField] private Transform mother;
+    [SerializeField] private Transform breakfast;
+    [SerializeField] private GameObject callButton;
 
     private NavMeshAgent navMeshAgent;
     private int currentDestinationIndex = 0;
     private bool isWaiting = false;
 
     private int temp_destination;
+    Text callButtonText;
 
 
     // Start is called before the first frame update
@@ -22,27 +25,36 @@ public class BoyController : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.enabled = false;
+
+        callButtonText = callButton.GetComponentInChildren<Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
         GameController gamecontroller = FindObjectOfType<GameController>();
+        ObjectFollowPlayer objectfollowplayer = FindObjectOfType<ObjectFollowPlayer>();
 
         // 目的地に到達したら次の目的地を設定
         if (!gamecontroller.sleepBool)
         {
             navMeshAgent.enabled = true;
 
-            if (Input.GetKeyDown(KeyCode.P))
+            if (currentDestinationIndex == destinations.Length && objectfollowplayer.placedDish)
             {
-                MoveToSpecificLocation();
+                callButtonText.text = ("子供を呼ぶ");
+                callButton.SetActive(true);
             }
-
+            
             else if (navMeshAgent.remainingDistance < 2.0f && !navMeshAgent.pathPending && !isWaiting)
             {
                 SetNextDestination();
                 currentDestinationIndex++;
+            }
+
+            if (currentDestinationIndex != destinations.Length && objectfollowplayer.placedDish)
+            {
+                Debug.Log("子供が朝の支度を終えていません！！");
             }
         }
     }
@@ -82,13 +94,10 @@ public class BoyController : MonoBehaviour
         }
     }
 
-    void MoveToSpecificLocation()
+    public void MoveToSpecificLocation()
     {
-        Vector3 specificLocation = mother.position;
+        Vector3 specificLocation = breakfast.position;
         navMeshAgent.SetDestination(specificLocation);
-
-        temp_destination = currentDestinationIndex;
-        currentDestinationIndex = destinations.Length; // Skip remaining destinations
     }
 
 }

@@ -11,6 +11,7 @@ public class ObjectFollowPlayer : MonoBehaviour
 
     public bool isFront = false;
     public bool puttable = false;
+    public bool placedDish = false;
 
     [SerializeField] private Transform SecondObject;
 
@@ -53,6 +54,8 @@ public class ObjectFollowPlayer : MonoBehaviour
     {
         transform.position = new Vector3(9.15f, 1.6f, -21.2f);
         SecondObject.position = new Vector3(10.85f, 1.6f, -21.2f);
+
+        placedDish = true;
     }
 }
 
