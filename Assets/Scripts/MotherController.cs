@@ -16,11 +16,15 @@ public class MotherController : MonoBehaviour
     //変数の宣言(角度の制限用)
     float minX = -90f, maxX = 90f;
 
+    Rigidbody rb;
+
     // Start is called before the first frame update
     void Start()
     {
         cameraRot = cam.transform.localRotation;
         characterRot = transform.localRotation;
+
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -50,8 +54,10 @@ public class MotherController : MonoBehaviour
         z = Input.GetAxisRaw("Vertical") * speed;
 
         //transform.position += new Vector3(x,0,z);
+        //transform.position += cam.transform.forward * z + cam.transform.right * x;
 
-        transform.position += cam.transform.forward * z + cam.transform.right * x;
+        Vector3 moveDirection = cam.transform.forward * z + cam.transform.right * x;
+        rb.MovePosition(rb.position + moveDirection);
     }
 
 

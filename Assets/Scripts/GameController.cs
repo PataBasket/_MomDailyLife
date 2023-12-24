@@ -47,6 +47,12 @@ public class GameController : MonoBehaviour
 
             _FireManageButton.SetActive(true);
         }
+
+        if(collider.gameObject.tag == "grabbable")
+        {
+            ObjectFollowPlayer grabbingClass = FindObjectOfType<ObjectFollowPlayer>();
+            grabbingClass.isFront = true;
+        }
     }
 
     private void OnTriggerExit(Collider collider)
@@ -61,7 +67,13 @@ public class GameController : MonoBehaviour
 
             _FireManageButton.SetActive(false);
         }
-        
+
+        if (collider.gameObject.tag == "grabbable")
+        {
+            ObjectFollowPlayer grabbingClass = FindObjectOfType<ObjectFollowPlayer>();
+            grabbingClass.isFront = false;
+        }
+
     }
 
     private void OnCollisionEnter(Collision collision)
