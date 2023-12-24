@@ -11,14 +11,17 @@ public class BoyController : MonoBehaviour
     public Transform[] destinations; // 目的地のTransform
     [SerializeField] private Transform breakfast;
     [SerializeField] private GameObject callButton;
+    [SerializeField] private GameObject eatButton;
 
     private NavMeshAgent navMeshAgent;
     private int currentDestinationIndex = 0;
     private bool isWaiting = false;
+    public bool isOnBreakfast = false;
+    public bool okToSend = false;
 
     private int temp_destination;
     Text callButtonText;
-
+    Text eatButtonText;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +30,7 @@ public class BoyController : MonoBehaviour
         navMeshAgent.enabled = false;
 
         callButtonText = callButton.GetComponentInChildren<Text>();
+        eatButtonText = eatButton.GetComponentInChildren<Text>();
     }
 
     // Update is called once per frame
@@ -40,7 +44,7 @@ public class BoyController : MonoBehaviour
         {
             navMeshAgent.enabled = true;
 
-            if (currentDestinationIndex == destinations.Length && objectfollowplayer.placedDish)
+            if (currentDestinationIndex == destinations.Length && objectfollowplayer.placedDish && !isOnBreakfast)
             {
                 callButtonText.text = ("子供を呼ぶ");
                 callButton.SetActive(true);
@@ -98,6 +102,15 @@ public class BoyController : MonoBehaviour
     {
         Vector3 specificLocation = breakfast.position;
         navMeshAgent.SetDestination(specificLocation);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.name == "Plate_01")
+        {
+            eatButtonText.text = "食べる";
+            eatButton.SetActive(true);
+        }
     }
 
 }

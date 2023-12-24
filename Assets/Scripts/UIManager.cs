@@ -8,6 +8,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject FireManageButton;
     [SerializeField] private GameObject SleepManageButton;
     [SerializeField] private GameObject callButton;
+    [SerializeField] private GameObject eatButton;
+
+    [SerializeField] private GameObject[] foodObjects;
 
     Text fireButtonText;
 
@@ -86,11 +89,29 @@ public class UIManager : MonoBehaviour
             pressCounter += Time.deltaTime;
             if (pressCounter >= 3)
             {
+                boycontroller.isOnBreakfast = true;
                 callButton.SetActive(false);
 
                 boycontroller.MoveToSpecificLocation();
                 Debug.Log("今食べにゆく");
                 
+                pressCounter = 0;
+            }
+        }
+
+        if(Input.GetKey(KeyCode.Return) && eatButton.activeSelf)
+        {
+            pressCounter += Time.deltaTime;
+            if (pressCounter >= 10)
+            {
+                for(int i=0; i<foodObjects.Length; i++)
+                {
+                    foodObjects[i].SetActive(false);
+                }
+                eatButton.SetActive(false);
+
+                Debug.Log("食べ終わりました");
+
                 pressCounter = 0;
             }
         }
