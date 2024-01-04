@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject SleepManageButton;
     [SerializeField] private GameObject callButton;
     [SerializeField] private GameObject eatButton;
+    [SerializeField] private GameObject sendButton;
 
     [SerializeField] private GameObject[] foodObjects;
 
@@ -111,6 +112,22 @@ public class UIManager : MonoBehaviour
                 eatButton.SetActive(false);
 
                 Debug.Log("食べ終わりました");
+                boycontroller.okToSend = true;
+
+                pressCounter = 0;
+            }
+        }
+
+        if(Input.GetKey(KeyCode.Return) && sendButton.activeSelf)
+        {
+            pressCounter += Time.deltaTime;
+            if (pressCounter >= 3)
+            {
+                boycontroller.isGoing = true;
+                sendButton.SetActive(false);
+
+                boycontroller.MoveToLastLocation();
+                Debug.Log("学校へ行きます");
 
                 pressCounter = 0;
             }

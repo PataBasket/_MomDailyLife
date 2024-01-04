@@ -10,18 +10,23 @@ public class BoyController : MonoBehaviour
 
     public Transform[] destinations; // 目的地のTransform
     [SerializeField] private Transform breakfast;
+    [SerializeField] private Transform goal;
+
     [SerializeField] private GameObject callButton;
     [SerializeField] private GameObject eatButton;
+    [SerializeField] private GameObject sendButton;
 
     private NavMeshAgent navMeshAgent;
     private int currentDestinationIndex = 0;
     private bool isWaiting = false;
     public bool isOnBreakfast = false;
     public bool okToSend = false;
+    public bool isGoing = false;
 
     private int temp_destination;
     Text callButtonText;
     Text eatButtonText;
+    Text sendButtonText;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +36,7 @@ public class BoyController : MonoBehaviour
 
         callButtonText = callButton.GetComponentInChildren<Text>();
         eatButtonText = eatButton.GetComponentInChildren<Text>();
+        sendButtonText = sendButton.GetComponentInChildren<Text>();
     }
 
     // Update is called once per frame
@@ -59,6 +65,12 @@ public class BoyController : MonoBehaviour
             if (currentDestinationIndex != destinations.Length && objectfollowplayer.placedDish)
             {
                 Debug.Log("子供が朝の支度を終えていません！！");
+            }
+
+            if (okToSend && !isGoing)
+            {
+                sendButtonText.text = ("おくる");
+                sendButton.SetActive(true);
             }
         }
     }
@@ -104,12 +116,26 @@ public class BoyController : MonoBehaviour
         navMeshAgent.SetDestination(specificLocation);
     }
 
+    public void MoveToLastLocation()
+    {
+        Vector3 lastLocation = goal.position;
+        navMeshAgent.SetDestination(lastLocation);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.name == "Plate_01")
         {
             eatButtonText.text = "食べる";
             eatButton.SetActive(true);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.name == "goal")
+        {
+            Debug.Log("Clear!!");
         }
     }
 
