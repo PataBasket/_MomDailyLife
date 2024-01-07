@@ -133,9 +133,11 @@ public class BoyController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        SceneSwitcher sceneswitcher = FindObjectOfType<SceneSwitcher>();
         if(collision.gameObject.name == "goal")
         {
             Debug.Log("Clear!!");
+            sceneswitcher.ClearScene();
         }
     }
 

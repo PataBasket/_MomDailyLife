@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         //gameController gamecontroller = FindObjectOfType<GameController>();
+        SceneSwitcher sceneswitcher = FindObjectOfType<SceneSwitcher>();
 
         if(exitCounterBool == true)
         {
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour
             {
                 Debug.Log("GameOver");
                 exitCounter = 0.0f;
+                sceneswitcher.GameOverFire();
             }
         }
 
@@ -54,6 +56,11 @@ public class GameManager : MonoBehaviour
         hourHand.transform.Rotate(Vector3.forward * -360f / 7200f * Time.deltaTime);
         minuteHand.transform.Rotate(Vector3.forward * -360f / 600f * Time.deltaTime);
         secondHand.transform.Rotate(Vector3.forward * -360f / 10f * Time.deltaTime);
+
+        if(minuteHand.transform.eulerAngles.z <= -360)
+        {
+            sceneswitcher.GameOverTime();
+        }
 
         //minuteHand.GetComponent<Transform>().localEulerAngles = new Vector3(90f, 0, -360f / 10.0f * Time.deltaTime); //長針
         //secondHand.GetComponent<Transform>().localEulerAngles = new Vector3(90f, 0, -360f / (1.0f/6.0f) * Time.deltaTime); //秒針

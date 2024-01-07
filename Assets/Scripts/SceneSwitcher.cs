@@ -51,6 +51,16 @@ public class SceneSwitcher : MonoBehaviour
             screenCounter = 0;
             LeaveInstruction();
         }
+
+
+        if(SceneManager.GetActiveScene().name == "GameOver_1" || SceneManager.GetActiveScene().name == "GameOver_2" || SceneManager.GetActiveScene().name == "ClearScene")
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SceneManager.LoadScene(targetSceneName);
+            }
+        }
+        
     }
 
     // ボタンが押されたときに呼ばれるメソッド
@@ -71,5 +81,20 @@ public class SceneSwitcher : MonoBehaviour
     {
         isReading = false;
         canvas_objects.SetActive(true);
+    }
+
+    public void GameOverFire()
+    {
+        SceneManager.LoadScene("GameOver_1");
+    }
+
+    public void GameOverTime()
+    {
+        SceneManager.LoadScene("GameOver_2");
+    }
+
+    public void ClearScene()
+    {
+        SceneManager.LoadScene("ClearScene");
     }
 }
